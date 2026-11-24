@@ -1,135 +1,177 @@
 import React from 'react';
-import { Phone, MapPin, Instagram, Facebook, MessageCircle } from 'lucide-react';
+import {
+  MapPin,
+  Phone,
+  Mail,
+  Clock,
+  Instagram,
+  Facebook,
+  MessageCircle,
+} from 'lucide-react';
 import logoImg from '../assets/images/logo.png';
-import { useLanguage } from './LanguageContext';
-import { CLINIC_INFO } from './translations';
+import { useLanguage } from './LanguageContext.jsx';
+import { BUSINESS_INFO } from './translations.js';
 
-export default function Footer({ onOpenModal }) {
-  const { t } = useLanguage();
+export default function Footer() {
+  const { language, t } = useLanguage();
+
+  const quickLinks = [
+    { href: '#accueil', label: t.nav.home },
+    { href: '#docteur', label: t.nav.about },
+    { href: '#soins', label: t.nav.services },
+    { href: '#cabinet', label: t.nav.cabinet },
+    { href: '#avis', label: t.nav.testimonials },
+    { href: '#contact', label: t.nav.contact },
+  ];
+
+  const defaultWhatsAppText =
+    language === 'ar'
+      ? 'مرحباً دكتورة زهور منكوش، أرغب في الحصول على معلومات حول العلاجات في العيادة.'
+      : 'Bonjour Dr. Zhor Mengouch, je souhaite obtenir des informations concernant vos soins au cabinet.';
+
+  const whatsappDirectUrl = `https://wa.me/${BUSINESS_INFO.whatsappNumber}?text=${encodeURIComponent(
+    defaultWhatsAppText
+  )}`;
 
   return (
     <>
-      <footer className="bg-brand-bronze text-white pt-16 pb-12">
+      <footer className="bg-brand-plum text-white pt-16 pb-12 mt-12 border-t border-brand-gold/25">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-white/15">
-            <div className="lg:col-span-5 space-y-4">
+            {/* Brand Identity Column */}
+            <div className="lg:col-span-4 space-y-5">
               <div className="flex items-center gap-4">
-                <img
-                  src={logoImg}
-                  alt="Logo Cabinet Dr. Zhor Mengouch"
-                  className="w-16 h-16 sm:w-20 sm:h-20 rounded-full object-contain shadow-md"
-                />
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-brand-bronzeDark/80 p-2 ring-2 ring-brand-goldLight/50 flex items-center justify-center shrink-0">
+                  <img
+                    src={logoImg}
+                    alt={t.brand.name}
+                    className="w-full h-full object-contain"
+                  />
+                </div>
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-extrabold text-white">
-                    {t.brandName}
+                  <h2 className="font-display text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                    {t.brand.name}
                   </h2>
-                  <p className="text-sm sm:text-base text-brand-champagne font-medium">
-                    {t.brandSubtitle}
+                  <p className="text-sm sm:text-base text-brand-goldLight font-medium mt-0.5">
+                    {t.brand.subtitle}
                   </p>
                 </div>
               </div>
-              <p className="text-sm sm:text-base text-brand-cream/90 leading-relaxed max-w-md">
-                {t.footer.tagline}
+
+              <p className="text-sm sm:text-base text-white/85 leading-relaxed">
+                {t.footer.description}
               </p>
-            </div>
 
-            <div className="lg:col-span-3 space-y-4">
-              <h3 className="text-lg sm:text-xl font-bold text-brand-champagne">
-                {t.footer.quickLinks}
-              </h3>
-              <ul className="space-y-2.5 text-sm sm:text-base">
-                <li>
-                  <a href="#accueil" className="text-white/90 hover:text-brand-champagne">
-                    {t.nav.home}
-                  </a>
-                </li>
-                <li>
-                  <a href="#docteur" className="text-white/90 hover:text-brand-champagne">
-                    {t.nav.about}
-                  </a>
-                </li>
-                <li>
-                  <a href="#services" className="text-white/90 hover:text-brand-champagne">
-                    {t.nav.services}
-                  </a>
-                </li>
-                <li>
-                  <a href="#cabinet" className="text-white/90 hover:text-brand-champagne">
-                    {t.nav.cabinet}
-                  </a>
-                </li>
-                <li>
-                  <a href="#avis" className="text-white/90 hover:text-brand-champagne">
-                    {t.nav.reviews}
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="lg:col-span-4 space-y-4">
-              <h3 className="text-lg sm:text-xl font-bold text-brand-champagne">
-                {t.footer.contactHeading}
-              </h3>
-              <ul className="space-y-3 text-sm sm:text-base text-white/95">
-                <li className="flex items-start gap-2.5">
-                  <MapPin className="w-5 h-5 text-brand-champagne shrink-0 mt-1" />
-                  <span>{t.cabinet.addressValue}</span>
-                </li>
-                <li className="flex items-center gap-2.5">
-                  <Phone className="w-5 h-5 text-brand-champagne shrink-0" />
-                  <a href={CLINIC_INFO.telHref} dir="ltr" className="font-bold hover:underline">
-                    {CLINIC_INFO.phoneIntl}
-                  </a>
-                </li>
-              </ul>
-
-              <div className="flex items-center gap-3 pt-2">
+              {/* Social Icons */}
+              <div className="flex items-center gap-3 pt-1">
                 <a
-                  href={CLINIC_INFO.instagramUrl}
+                  href={BUSINESS_INFO.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Instagram"
-                  className="p-2.5 rounded-full bg-white/15 hover:bg-brand-gold hover:text-brand-espresso text-white transition-colors"
+                  className="w-11 h-11 rounded-full bg-white/12 hover:bg-brand-gold text-white flex items-center justify-center transition-colors"
                 >
                   <Instagram className="w-5 h-5" />
                 </a>
                 <a
-                  href={CLINIC_INFO.facebookUrl}
+                  href={BUSINESS_INFO.facebookUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Facebook"
-                  className="p-2.5 rounded-full bg-white/15 hover:bg-brand-gold hover:text-brand-espresso text-white transition-colors"
+                  className="w-11 h-11 rounded-full bg-white/12 hover:bg-brand-gold text-white flex items-center justify-center transition-colors"
                 >
                   <Facebook className="w-5 h-5" />
                 </a>
               </div>
             </div>
+
+            {/* Quick Navigation Links */}
+            <div className="lg:col-span-3 space-y-4">
+              <h3 className="font-display text-lg sm:text-xl font-bold text-brand-goldLight">
+                {t.footer.quickLinksTitle}
+              </h3>
+              <ul className="space-y-2.5">
+                {quickLinks.map((link) => (
+                  <li key={link.href}>
+                    <a
+                      href={link.href}
+                      className="text-sm sm:text-base text-white/85 hover:text-brand-goldLight transition-colors"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Coordonnées Column */}
+            <div className="lg:col-span-5 space-y-4">
+              <h3 className="font-display text-lg sm:text-xl font-bold text-brand-goldLight">
+                {t.footer.contactTitle}
+              </h3>
+
+              <ul className="space-y-3.5 text-sm sm:text-base text-white/90">
+                <li className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-brand-goldLight mt-1 shrink-0" />
+                  <span>
+                    {language === 'ar' ? BUSINESS_INFO.addressAr : BUSINESS_INFO.addressFr}
+                  </span>
+                </li>
+
+                <li className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-brand-goldLight shrink-0" />
+                  <a
+                    href={`tel:${BUSINESS_INFO.phoneTel}`}
+                    dir="ltr"
+                    className="font-bold hover:text-brand-goldLight transition-colors"
+                  >
+                    {BUSINESS_INFO.phoneDisplay}
+                  </a>
+                </li>
+
+                <li className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-brand-goldLight shrink-0" />
+                  <a
+                    href={`mailto:${BUSINESS_INFO.email}`}
+                    dir="ltr"
+                    className="hover:text-brand-goldLight transition-colors"
+                  >
+                    {BUSINESS_INFO.email}
+                  </a>
+                </li>
+
+                <li className="flex items-start gap-3 pt-1">
+                  <Clock className="w-5 h-5 text-brand-goldLight mt-1 shrink-0" />
+                  <div>
+                    <p>{t.footer.scheduleWeekday}</p>
+                    <p>{t.footer.scheduleSaturday}</p>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
 
-          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-brand-cream/80">
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-white/75">
             <p>
-              © {new Date().getFullYear()} {t.brandName}. {t.footer.rights}
+              © {new Date().getFullYear()} {t.brand.name}. {t.footer.rights}
             </p>
-            <button
-              type="button"
-              onClick={() => onOpenModal()}
-              className="text-brand-champagne font-bold hover:underline"
-            >
-              {t.nav.book} →
-            </button>
+            <p className="text-brand-goldLight/90 font-medium">
+              Agdal • Rabat, Maroc
+            </p>
           </div>
         </div>
       </footer>
 
+      {/* Floating WhatsApp Direct Button */}
       <a
-        href={`https://wa.me/${CLINIC_INFO.whatsappRaw}`}
+        href={whatsappDirectUrl}
         target="_blank"
         rel="noopener noreferrer"
-        aria-label={t.footer.whatsappFloat}
-        className="fixed bottom-5 end-5 z-40 inline-flex items-center gap-2.5 px-5 py-3.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm shadow-xl transition-transform hover:scale-105"
+        aria-label={t.footer.whatsappFloatLabel}
+        className="fixed bottom-5 end-5 z-30 inline-flex items-center gap-2.5 px-4 py-3.5 rounded-full bg-emerald-600 text-white font-bold text-sm shadow-xl hover:bg-emerald-700 hover:scale-105 transition-all"
       >
-        <MessageCircle className="w-5 h-5" />
-        <span className="hidden sm:inline">{t.footer.whatsappFloat}</span>
+        <MessageCircle className="w-5 h-5 shrink-0" />
+        <span className="hidden sm:inline">{t.footer.whatsappFloatLabel}</span>
       </a>
     </>
   );

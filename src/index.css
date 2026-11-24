@@ -3,28 +3,55 @@
 @tailwind utilities;
 
 @layer base {
-  html[lang='fr'] body {
-    font-family: 'Plus Jakarta Sans', 'Inter', system-ui, sans-serif;
+  html {
+    scroll-behavior: smooth;
+    font-family: 'DM Sans', 'Inter', 'IBM Plex Sans Arabic', 'Cairo', sans-serif;
   }
 
-  html[lang='ar'] body {
-    font-family: 'Cairo', 'Tajawal', system-ui, sans-serif;
+  html[dir='rtl'] body {
+    font-family: 'IBM Plex Sans Arabic', 'Cairo', 'Tajawal', sans-serif;
+  }
+
+  h1, h2, h3, h4, .font-display {
+    font-family: 'Montserrat', 'IBM Plex Sans Arabic', 'Cairo', sans-serif;
+  }
+
+  html[dir='rtl'] h1,
+  html[dir='rtl'] h2,
+  html[dir='rtl'] h3,
+  html[dir='rtl'] h4,
+  html[dir='rtl'] .font-display {
+    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
   }
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.74);
+  background: rgba(255, 255, 255, 0.72);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.75);
   box-shadow: 0 8px 32px rgba(107, 75, 42, 0.08);
   border-radius: 20px;
 }
 
 .glass-navigation {
-  background: rgba(251, 248, 243, 0.86);
+  background: rgba(255, 255, 255, 0.82);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid rgba(107, 75, 42, 0.12);
   box-shadow: 0 4px 24px rgba(107, 75, 42, 0.06);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(107, 75, 42, 0.14);
+}
+
+.brand-gradient-bg {
+  background: radial-gradient(circle at 12% 14%, rgba(196, 154, 91, 0.16), transparent 42%),
+    radial-gradient(circle at 88% 22%, rgba(107, 75, 42, 0.11), transparent 46%),
+    radial-gradient(circle at 50% 85%, rgba(200, 43, 107, 0.05), transparent 48%),
+    #fbf8f3;
 }

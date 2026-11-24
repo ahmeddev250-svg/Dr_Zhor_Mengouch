@@ -1,32 +1,34 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { translations } from './translations';
+import { translations } from './translations.js';
 
-const LanguageContext = createContext();
+const LanguageContext = createContext(null);
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState('fr');
+  const [language, setLanguage] = useState('fr');
 
   useEffect(() => {
-    const html = document.documentElement;
-    html.setAttribute('lang', lang);
-    html.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-  }, [lang]);
+    const isArabic = language === 'ar';
+    document.documentElement.lang = isArabic ? 'ar' : 'fr';
+    document.documentElement.dir = isArabic ? 'rtl' : 'ltr';
+  }, [language]);
 
-  const toggleLang = (target) => {
-    if (target === 'fr' || target === 'ar') {
-      setLang(target);
-    } else {
-      setLang((prev) => (prev === 'fr' ? 'ar' : 'fr'));
-    }
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === 'fr' ? 'ar' : 'fr'));
   };
 
+  const t = translations[language] || translations.fr;
+
   return (
-    <LanguageContext.Provider value={{ lang, setLang: toggleLang, t: translations[lang] }}>
+    <LanguageContext.Provider value={{ language, setLanguage, toggleLanguage, t, isRTL: language === 'ar' }}>
       {children}
     </LanguageContext.Provider>
   );
 }
 
 export function useLanguage() {
-  return useContext(LanguageContext);
+  const ctx = useContext(LanguageContext);
+  if (!ctx) {
+    throw new Error('useLanguage must be used within a LanguageProvider');
+  }
+  return ctx;
 }

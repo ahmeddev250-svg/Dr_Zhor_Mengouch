@@ -1,87 +1,111 @@
 import React from 'react';
-import { Calendar } from 'lucide-react';
-import lipsImg from '../assets/images/service-injections-lips.webp';
-import profiloplastieImg from '../assets/images/service-profiloplastie.webp';
-import skinboosterImg from '../assets/images/service-skinbooster.webp';
-import mesotherapieImg from '../assets/images/service-mesotherapie.webp';
-import antiageImg from '../assets/images/service-antiage.webp';
-import capillaireImg from '../assets/images/service-capillaire.webp';
-import { useLanguage } from './LanguageContext';
+import { Calendar, Check, Clock } from 'lucide-react';
+import imgInjections from '../assets/images/result-lips-jawline.jpg';
+import imgSkinCare from '../assets/images/treatment-neck-meso-1.webp';
+import imgAntiAge from '../assets/images/treatment-neck-meso-2.webp';
+import imgConsultation from '../assets/images/dr-zhor-cabinet.webp';
+import { useLanguage } from './LanguageContext.jsx';
 
-const SERVICE_IMAGES = {
-  injections: lipsImg,
-  profiloplastie: profiloplastieImg,
-  skinbooster: skinboosterImg,
-  mesotherapie: mesotherapieImg,
-  antiage: antiageImg,
-  capillaire: capillaireImg,
-};
-
-export default function Services({ onOpenModal }) {
+export default function Services({ onOpenBooking }) {
   const { t } = useLanguage();
 
+  const serviceImages = [imgInjections, imgSkinCare, imgAntiAge, imgConsultation];
+
   return (
-    <section id="services" className="py-16 lg:py-24 bg-brand-ivory">
+    <section id="soins" className="py-16 sm:py-24 relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-12 lg:mb-16 space-y-3">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-brand-bronze/10 text-brand-bronze text-xs sm:text-sm font-bold">
+        {/* Section Header */}
+        <div className="text-center max-w-3xl mx-auto space-y-4 mb-12 sm:mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-brand-plum/10 text-brand-plum text-xs sm:text-sm font-bold">
             {t.services.eyebrow}
           </span>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-espresso">
+          <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-brand-ink">
             {t.services.title}
           </h2>
-          <p className="text-base text-stone-600 leading-relaxed">{t.services.subtitle}</p>
+          <p className="text-base sm:text-lg text-brand-ink/75 leading-relaxed">
+            {t.services.subtitle}
+          </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-7">
-          {t.services.items.map((item) => (
-            <article
-              key={item.id}
-              className="glass-card overflow-hidden flex flex-col justify-between group hover:shadow-glass-lg transition-all duration-300"
-            >
-              <div>
-                <div className="relative h-60 overflow-hidden bg-brand-sand">
-                  <img
-                    src={SERVICE_IMAGES[item.id]}
-                    alt={item.title}
-                    loading="lazy"
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                  <span className="absolute top-3.5 start-3.5 px-3 py-1 rounded-full bg-brand-espresso/85 backdrop-blur-md text-brand-cream text-xs font-bold">
-                    {item.category}
-                  </span>
-                </div>
+        {/* Service Cards Grid */}
+        <div className="grid md:grid-cols-2 gap-7 lg:gap-8">
+          {t.services.items.map((service, idx) => {
+            const imgSrc = serviceImages[idx % serviceImages.length];
+            return (
+              <article
+                key={service.id}
+                className="glass-card overflow-hidden flex flex-col justify-between hover:shadow-glass-lg transition-all duration-300 group"
+              >
+                <div>
+                  {/* Authentic Visual Header */}
+                  <div className="relative h-60 sm:h-64 overflow-hidden bg-brand-sand">
+                    <img
+                      src={imgSrc}
+                      alt={service.title}
+                      loading="lazy"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-brand-bronzeDark/70 via-brand-bronzeDark/15 to-transparent" />
+                    <span className="absolute top-4 start-4 px-3.5 py-1.5 rounded-full bg-white/90 backdrop-blur-md text-xs font-bold text-brand-plum shadow-sm">
+                      {service.category}
+                    </span>
+                    <span className="absolute bottom-3.5 start-4 inline-flex items-center gap-1.5 text-xs font-semibold text-white/95">
+                      <Clock className="w-3.5 h-3.5 text-brand-goldLight" />
+                      <span>{t.services.durationBadge}</span>
+                    </span>
+                  </div>
 
-                <div className="p-6 space-y-3">
-                  <h3 className="text-lg sm:text-xl font-extrabold text-brand-espresso">
-                    {item.title}
-                  </h3>
-                  <p className="text-sm text-stone-600 leading-relaxed">{item.description}</p>
-                  <div className="flex flex-wrap gap-2 pt-1">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-lg bg-brand-sand text-brand-bronze text-xs font-semibold"
-                      >
-                        {tag}
-                      </span>
-                    ))}
+                  {/* Card Body */}
+                  <div className="p-6 sm:p-7 space-y-4">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-brand-ink">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-sm sm:text-base text-brand-ink/75 leading-relaxed">
+                      {service.description}
+                    </p>
+
+                    {/* Tags */}
+                    <div className="flex flex-wrap gap-2">
+                      {service.tags.map((tag) => (
+                        <span
+                          key={tag}
+                          className="px-3 py-1 rounded-full bg-brand-plum/8 text-brand-plum text-xs font-semibold border border-brand-plum/15"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Bullet Highlights */}
+                    <ul className="space-y-2 pt-2 border-t border-brand-plum/10">
+                      {service.highlights.map((item) => (
+                        <li
+                          key={item}
+                          className="flex items-start gap-2.5 text-sm text-brand-ink/85"
+                        >
+                          <Check className="w-4 h-4 text-brand-plum mt-0.5 shrink-0" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
-              </div>
 
-              <div className="px-6 pb-6 pt-2">
-                <button
-                  type="button"
-                  onClick={() => onOpenModal(item.title)}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-brand-bronze/10 hover:bg-brand-bronze text-brand-espresso hover:text-white font-bold text-sm transition-colors"
-                >
-                  <Calendar className="w-4 h-4" />
-                  <span>{t.services.bookService}</span>
-                </button>
-              </div>
-            </article>
-          ))}
+                {/* Action Footer */}
+                <div className="px-6 sm:px-7 pb-6 sm:pb-7 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => onOpenBooking(service.id)}
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-full bg-brand-plum text-white text-sm sm:text-base font-bold hover:bg-brand-bronzeDark transition-colors shadow-sm"
+                  >
+                    <Calendar className="w-4 h-4 shrink-0" />
+                    <span>{t.services.bookServiceBtn}</span>
+                  </button>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

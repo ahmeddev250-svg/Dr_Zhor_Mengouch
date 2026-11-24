@@ -1,81 +1,107 @@
 import React from 'react';
-import { Star, ExternalLink, Quote } from 'lucide-react';
-import { useLanguage } from './LanguageContext';
-import { CLINIC_INFO } from './translations';
+import { Star, Quote, ExternalLink } from 'lucide-react';
+import { useLanguage } from './LanguageContext.jsx';
+import { BUSINESS_INFO } from './translations.js';
 
 export default function Testimonials() {
   const { t } = useLanguage();
 
   return (
-    <section id="avis" className="py-16 lg:py-24 bg-white/70">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-10">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
-          <div className="space-y-3">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-brand-bronze/10 text-brand-bronze text-xs sm:text-sm font-bold">
-              {t.testimonials.eyebrow}
-            </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-brand-espresso">
-              {t.testimonials.title}
-            </h2>
-            <div className="flex items-center gap-2 text-brand-espresso font-bold">
-              <div className="flex items-center gap-0.5">
-                {[...Array(5)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
-                ))}
-              </div>
-              <span>{t.testimonials.ratingSummary}</span>
+    <section id="avis" className="py-16 sm:py-24 relative">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
+        {/* Section Header with Verified Google Rating */}
+        <div className="text-center max-w-3xl mx-auto space-y-4">
+          <span className="inline-block px-4 py-1.5 rounded-full bg-brand-plum/10 text-brand-plum text-xs sm:text-sm font-bold">
+            {t.testimonials.eyebrow}
+          </span>
+          <h2 className="font-display text-2xl sm:text-4xl font-extrabold text-brand-ink">
+            {t.testimonials.title}
+          </h2>
+
+          <div className="inline-flex flex-wrap items-center justify-center gap-2.5 px-5 py-2.5 rounded-full glass-card">
+            <div className="flex items-center gap-1 text-amber-500">
+              {[...Array(5)].map((_, idx) => (
+                <Star key={idx} className="w-4 h-4 fill-amber-400 text-amber-400" />
+              ))}
             </div>
+            <span className="text-sm sm:text-base font-bold text-brand-ink">
+              {t.testimonials.ratingBadge}
+            </span>
           </div>
 
-          <a
-            href={CLINIC_INFO.mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-5 py-3 rounded-full glass-card hover:bg-white text-brand-espresso font-bold text-sm self-start lg:self-auto"
-          >
-            <span>{t.testimonials.googleBtn}</span>
-            <ExternalLink className="w-4 h-4 text-brand-bronze" />
-          </a>
-        </div>
-
-        <div className="flex flex-wrap gap-2.5">
-          {t.testimonials.keywords.map((kw) => (
-            <span
-              key={kw}
-              className="px-4 py-1.5 rounded-full bg-brand-cream border border-brand-gold/40 text-brand-espresso text-xs sm:text-sm font-bold"
-            >
-              ✓ {kw}
+          {/* Recurring Patient Keyword Chips */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-2">
+            <span className="text-xs sm:text-sm font-semibold text-brand-ink/70">
+              {t.testimonials.keywordsLabel}
             </span>
-          ))}
+            {t.testimonials.keywords.map((kw) => (
+              <span
+                key={kw.word}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-brand-plum/10 text-brand-plum text-xs sm:text-sm font-bold border border-brand-plum/15"
+              >
+                <span>{kw.word}</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-white/80 text-xs">
+                  {kw.count}
+                </span>
+              </span>
+            ))}
+          </div>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
-          {t.testimonials.items.map((review) => (
+        {/* Authentic Google Maps Review Cards */}
+        <div className="grid md:grid-cols-3 gap-6 lg:gap-7">
+          {t.testimonials.reviews.map((review) => (
             <article
               key={review.author}
               className="glass-card p-6 sm:p-7 flex flex-col justify-between space-y-5"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-1">
-                    {[...Array(review.rating)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-amber-400 text-amber-400" />
+                  <div className="flex items-center gap-1 text-amber-500">
+                    {[...Array(review.rating)].map((_, idx) => (
+                      <Star
+                        key={idx}
+                        className="w-4 h-4 fill-amber-400 text-amber-400"
+                      />
                     ))}
                   </div>
                   <Quote className="w-6 h-6 text-brand-gold/60" />
                 </div>
 
-                <p dir="ltr" className="text-sm sm:text-base text-stone-700 leading-relaxed">
-                  « {review.text} »
+                <p
+                  dir={review.lang === 'ar' ? 'rtl' : 'ltr'}
+                  className="text-sm sm:text-base text-brand-ink/85 leading-relaxed"
+                >
+                  “{review.text}”
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-brand-bronze/10">
-                <p className="font-extrabold text-brand-espresso text-base">{review.author}</p>
-                <p className="text-xs text-stone-500">{review.meta}</p>
+              <div className="pt-4 border-t border-brand-plum/10 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-brand-plum text-white font-display font-bold flex items-center justify-center shrink-0">
+                  {review.author.charAt(0)}
+                </div>
+                <div>
+                  <p className="font-display text-sm sm:text-base font-bold text-brand-ink">
+                    {review.author}
+                  </p>
+                  <p className="text-xs text-brand-ink/65">{review.meta}</p>
+                </div>
               </div>
             </article>
           ))}
+        </div>
+
+        {/* Link to Official Google Maps Listing */}
+        <div className="text-center">
+          <a
+            href={BUSINESS_INFO.googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full glass-pill text-sm sm:text-base font-bold text-brand-plum hover:bg-brand-plum hover:text-white transition-all"
+          >
+            <span>{t.testimonials.viewAllGoogle}</span>
+            <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
       </div>
     </section>

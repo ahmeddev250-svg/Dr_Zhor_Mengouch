@@ -1,26 +1,19 @@
 # Dependencies
 node_modules/
-.pnp
-.pnp.js
 
-# Build outputs
+# Build output
 dist/
 dist-ssr/
-*.local
 
-# Environment files
+# Local environment files
 .env
 .env.local
 .env.*.local
 
-# OS & Editor files
+# OS & editor artifacts
 .DS_Store
 Thumbs.db
+*.local
 .vscode/*
 !.vscode/extensions.json
-.idea
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw?
+.idea/
